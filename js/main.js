@@ -11,7 +11,7 @@ logs.unshift({id:genId(),action,desc,data,date:todayStr(),time:fmtT(now),ts:now.
 if(logs.length>500)logs.length=500;
 DB.set(‘adminLogs’,logs);
 }
-
+ 
 function renderAdminLogs(){
 const c=document.getElementById(‘adminLogsList’);if(!c)return;
 let logs=DB.get(‘adminLogs’)||[];
