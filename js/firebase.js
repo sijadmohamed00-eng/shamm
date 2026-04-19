@@ -91,7 +91,10 @@ function _mergeOnConnect(){
     settled=true;
     clearTimeout(timeout);
     const cloud=snap.val()||{};
-    const cloudEmpty=!cloud.emps||!Array.isArray(cloud.emps)||cloud.emps.length===0;
+    // Firebase يحفظ arrays كـ objects أحياناً — نتحقق من كلا الحالتين
+    const empsVal=cloud.emps;
+    const empsArr=Array.isArray(empsVal)?empsVal:(empsVal&&typeof empsVal==='object'?Object.values(empsVal):[]);
+    const cloudEmpty=!empsVal||empsArr.length===0;
     if(cloudEmpty){
       // Cloud is empty → ensure local data exists, then push up
       _ensureLocalData();
@@ -100,7 +103,12 @@ function _mergeOnConnect(){
       // Cloud has data → pull it locally (cloud wins)
       SYNC_KEYS.forEach(k=>{
         if(cloud[k]!==undefined&&cloud[k]!==null){
-          localStorage.setItem('ccs2_'+k,JSON.stringify(cloud[k]));
+          // تحويل objects إلى arrays إذا لزم
+          let val=cloud[k];
+          if(k==='emps'&&!Array.isArray(val)&&typeof val==='object'){
+            val=Object.values(val);
+          }
+          localStorage.setItem('ccs2_'+k,JSON.stringify(val));
         }
       });
       // Refresh UI after pull
@@ -151,8 +159,12 @@ function _startListeners(){
   if(!fbDB)return;
   SYNC_KEYS.forEach(key=>{
     fbDB.ref('ccs/'+key).on('value', snap=>{
-      const v=snap.val();
+      let v=snap.val();
       if(v===null||v===undefined)return;
+      // تحويل objects إلى arrays إذا لزم (Firebase يحول arrays لـ objects أحياناً)
+      if(key==='emps'&&!Array.isArray(v)&&typeof v==='object'){
+        v=Object.values(v);
+      }
       // Write to local storage
       localStorage.setItem('ccs2_'+key,JSON.stringify(v));
       // Update UI live
