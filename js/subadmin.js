@@ -148,6 +148,17 @@ function applySubAdminPermissions(){
       // hide delete inside detail too
     });
   }
+  // إخفاء قسم Firebase من الإعدادات للمديرين الفرعيين
+  const fbSection=document.querySelector('#at-cfg .card.mb12[style*="rgba(255,152,0"]');
+  if(fbSection)fbSection.style.display='none';
+  // إخفاء كل بطاقات الإعدادات الحساسة
+  document.querySelectorAll('#at-cfg .card').forEach(card=>{
+    const txt=card.textContent||'';
+    if(txt.includes('Firebase')||txt.includes('مزامنة')||txt.includes('تليجرام')||txt.includes('Token')){
+      card.style.display='none';
+    }
+  });
+
   // Change topbar to show sub-admin info
   const uname=document.querySelector('#adminScreen .uname');
   const urole=document.querySelector('#adminScreen .urole');
