@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="سندريلا">
+  <meta name="apple-mobile-web-app-title" content="ابن الشام">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#0a0c14">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon.png">
-  <title>👑 سندريلا — نظام الكول سنتر v4</title>
+  <title>👑 ابن الشام — نظام الكول سنتر v4</title>
 
   <!-- ══════════════════════════════════════
        CSS — الترتيب مهم: variables أولاً
@@ -87,8 +87,8 @@
     <div style="width:100%;max-width:400px">
       <div class="login-brand">
         <div class="login-logo">👑</div>
-        <h1>مطاعم سندريلا</h1>
-        <p>بغداد — شارع فلسطين | نظام الكول سنتر</p>
+        <h1>مطعم ابن الشام</h1>
+        <p>بغداد — حي اور | نظام الكول سنتر</p>
       </div>
       <div class="login-card">
         <div class="fg"><label>اسم المستخدم</label><input type="text" id="lUser" placeholder="username" autocomplete="username" style="direction:ltr;text-align:left" autocapitalize="none"></div>
@@ -216,7 +216,7 @@
           <div class="ch"><h3>📄 كشف الراتب</h3><span class="pbadge" id="empPBadge">--</span></div>
           <div class="cb">
             <div class="slip">
-              <div class="sliph"><h4>👑 مطاعم سندريلا — بغداد</h4><p id="slipEmpName">--</p></div>
+              <div class="sliph"><h4>👑 مطعم ابن الشام — بغداد</h4><p id="slipEmpName">--</p></div>
               <div class="srow"><div class="sl2">الراتب الشهري</div><div class="sv2 gnum" id="sl-monthly">--</div></div>
               <div class="srow"><div class="sl2">معدل اليوم (÷30)</div><div class="sv2" id="sl-daily">--</div></div>
               <div class="srow"><div class="sl2">أيام الحضور</div><div class="sv2 tgrn bold" id="sl-present">--</div></div>
@@ -310,7 +310,7 @@
         <div class="card" style="padding:0;overflow:hidden">
           <div class="bot-wrap">
             <div class="bot-messages" id="botMessages">
-              <div class="bot-msg bot">مرحباً! 👋 أنا المساعد الذكي لنظام سندريلا. يمكنك سؤالي عن راتبك، أيام حضورك، إجازاتك، أو أي شيء آخر.</div>
+              <div class="bot-msg bot">مرحباً! 👋 أنا المساعد الذكي لنظام ابن الشام. يمكنك سؤالي عن راتبك، أيام حضورك، إجازاتك، أو أي شيء آخر.</div>
               <div style="display:flex;flex-wrap:wrap;gap:4px;padding:4px 0">
                 <span class="bot-chip" onclick="askBot('كم راتبي هذا الشهر؟')">💰 راتبي الشهر</span>
                 <span class="bot-chip" onclick="askBot('كم يوم حضرت هذه الفترة؟')">📅 أيام حضوري</span>
@@ -395,8 +395,8 @@
 <div class="screen" id="adminScreen">
   <div class="topbar">
     <div class="tb-brand">
-      <img src="icon.png" class="tb-icon-img" alt="سندريلا" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="tb-icon" style="background:linear-gradient(135deg,var(--gold),#ffab40);display:none">👑</div>
-      <div><h1>سندريلا | لوحة التحكم</h1><span>بغداد — شارع فلسطين</span></div>
+      <img src="icon.png" class="tb-icon-img" alt="ابن الشام" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="tb-icon" style="background:linear-gradient(135deg,var(--gold),#ffab40);display:none">👑</div>
+      <div><h1>ابن الشام | لوحة التحكم</h1><span>بغداد — حي اور</span></div>
     </div>
     <div class="tb-right">
       <div class="clock" id="adminClock">--:--:--</div>
@@ -410,7 +410,7 @@
   <div class="sysbar">
     <span>📅 <span id="adminDateBar">--</span></span>
     <span>👥 <span id="adminEC" style="color:var(--cyan)">0</span> موظف</span>
-    <span>📍 شارع فلسطين، بغداد</span>
+    <span>📍 حي اور، بغداد</span>
     <span><span class="pdot"></span> يعمل</span><span id="syncStatus" style="color:var(--t3)">🔄 محلي</span>
   </div>
   <div class="layout">
@@ -860,7 +860,7 @@
         <div class="ii"><div class="lb">خط العرض</div><div class="vl cyan" id="cfgLat">33.357460</div></div>
         <div class="ii"><div class="lb">خط الطول</div><div class="vl cyan" id="cfgLng">44.424685</div></div>
         <div class="ii"><div class="lb">النطاق</div><div class="vl green" id="cfgRad">100 متر</div></div>
-        <div class="ii"><div class="lb">العنوان</div><div class="vl" style="font-size:11px">شارع فلسطين، بغداد</div></div>
+        <div class="ii"><div class="lb">العنوان</div><div class="vl" style="font-size:11px">حي اور، بغداد</div></div>
       </div>
       <div class="flex g8" style="flex-wrap:wrap">
         <div style="flex:1;min-width:120px"><label style="font-size:11px;color:var(--t3);display:block;margin-bottom:4px">خط العرض</label><input type="number" class="fi" id="inpLat" step="0.0001" value="33.3574598"></div>
@@ -1070,7 +1070,7 @@
       </div>
       <div class="dtc" id="dt-sal">
         <div class="slip">
-          <div class="sliph"><h4>👑 سندريلا — بغداد</h4><p id="dSlipName">--</p></div>
+          <div class="sliph"><h4>🍽️ ابن الشام — بغداد</h4><p id="dSlipName">--</p></div>
           <div class="srow"><div class="sl2">الراتب الشهري</div><div class="sv2 gnum" id="ds-monthly">--</div></div>
           <div class="srow"><div class="sl2">معدل اليوم</div><div class="sv2" id="ds-daily">--</div></div>
           <div class="srow"><div class="sl2">أيام الحضور</div><div class="sv2 tgrn" id="ds-pres">--</div></div>
