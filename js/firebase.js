@@ -1,14 +1,14 @@
 // ═══ firebase.js ═══
 // ═══ FIREBASE REALTIME SYNC ═══
-// ═══ FIREBASE CONFIG (REAL - cinderella-d6fb9) ═══
+// ═══ FIREBASE CONFIG (REAL - abn-alsham) ═══
 const _REAL_FB_CFG={
-  apiKey:"AIzaSyCwgMofJnj7lcSZQ5swhr7jWoqG0UZ48W0",
-  authDomain:"cinderella-d6fb9.firebaseapp.com",
-  databaseURL:"https://cinderella-d6fb9-default-rtdb.firebaseio.com",
-  projectId:"cinderella-d6fb9",
-  storageBucket:"cinderella-d6fb9.firebasestorage.app",
-  messagingSenderId:"596861181608",
-  appId:"1:596861181608:web:044de1a08ae5e51ba06c9d",
+  apiKey:"AIzaSyD4K4EmitS27MR37Pl8Ch8jnhlhYoOJMJE",
+  authDomain:"abn-alsham.firebaseapp.com",
+  databaseURL:"https://abn-alsham-default-rtdb.firebaseio.com",
+  projectId:"abn-alsham",
+  storageBucket:"abn-alsham.firebasestorage.app",
+  messagingSenderId:"258845579071",
+  appId:"1:258845579071:web:044de1a08ae5e51ba06c9d",
   measurementId:"G-YXM98JS1Y2"
 };
 
