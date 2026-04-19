@@ -90,6 +90,19 @@ function renderAdmin(){
     if(_lb)_lb.textContent=_loans.filter(l=>l.status==='pending').length;
   }catch(e){}
   try{updatePendingBadges();}catch(e){}
+  // إخفاء أقسام Firebase والتليجرام للمديرين الفرعيين
+  if(SA_MODE){
+    document.querySelectorAll('#at-cfg .card').forEach(card=>{
+      const txt=card.textContent||'';
+      if(txt.includes('Firebase')||txt.includes('مزامنة')||txt.includes('تليجرام')||txt.includes('Token')||txt.includes('بوت')){
+        card.style.display='none';
+      }
+    });
+  } else {
+    document.querySelectorAll('#at-cfg .card').forEach(card=>{
+      card.style.display='';
+    });
+  }
 }
 
 function renderQuickAtt(emps,att,today){
@@ -447,4 +460,3 @@ function buildReportText(type='manual'){
   text+=`\n💵 الإجمالي: ${fmtN(totalNet)} د.ع\n📆 الصرف: ${per.pay.toLocaleDateString('ar-IQ',{day:'numeric',month:'long'})}\n━━━━━━━━━━━━━━━━━━━━━━`;
   return text;
 }
-
