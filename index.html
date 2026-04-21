@@ -643,7 +643,7 @@
     <div id="leavePendingList"><div class="empty"><div class="ei">🌴</div><p>لا توجد طلبات معلقة</p></div></div>
   </div>
   <div class="card">
-    <div class="ch"><h3>✅ الطلبات المنتهية</h3><button class="btn btn-dn btn-sm" onclick="clearArchivedLeaves()">🗑️ مسح السجل</button></div>
+    <div class="ch"><h3>✅ الطلبات المنتهية</h3><button class="btn btn-dn btn-sm" onclick="clearLeaveRequests()">🗑️ مسح السجل</button></div>
     <div id="leaveArchivedList"><div class="empty"><div class="ei">📋</div><p>لا توجد طلبات سابقة</p></div></div>
   </div>
 </div>
@@ -676,7 +676,7 @@
     <div id="loanPendingList"><div class="empty"><div class="ei">💳</div><p>لا توجد طلبات معلقة</p></div></div>
   </div>
   <div class="card">
-    <div class="ch"><h3>📋 الطلبات المنتهية</h3><button class="btn btn-dn btn-sm" onclick="clearArchivedLoans()">🗑️ مسح السجل</button></div>
+    <div class="ch"><h3>📋 الطلبات المنتهية</h3><button class="btn btn-dn btn-sm" onclick="clearLoanRequests()">🗑️ مسح السجل</button></div>
     <div id="loanArchivedList"><div class="empty"><div class="ei">📋</div><p>لا توجد طلبات سابقة</p></div></div>
   </div>
 </div>
@@ -685,7 +685,7 @@
 <div class="tab" id="at-logs">
   <div class="ph fb">
     <div><h2>📝 سجل العمليات</h2><p>كل تعديل يُسجَّل هنا</p></div>
-    <button class="btn btn-dn btn-sm" onclick="clearAdminLogs()">🗑️ مسح السجل</button>
+    <button class="btn btn-dn btn-sm" onclick="clearAllAdminLogs()">🗑️ مسح السجل</button>
   </div>
   <div class="filter-row">
     <input type="text" class="fi" id="logsSearch" placeholder="🔍 بحث في السجل..." oninput="renderAdminLogs()">
@@ -928,8 +928,8 @@
     <div class="cb"><div class="flex g10" style="flex-wrap:wrap">
       <button class="btn btn-sc" onclick="exportData()">📤 تصدير JSON</button>
       <button class="btn btn-sc" onclick="resetDemo()">🔄 إعادة تهيئة</button>
-      <button class="btn btn-dn" onclick="clearAll()">🗑️ مسح الكل</button>
-      <button class="btn btn-dn" onclick="fullFactoryReset()" style="background:rgba(139,0,0,.3);border-color:rgba(255,0,0,.5)">⚠️ إعادة ضبط المصنع</button>
+      <button class="btn btn-dn" onclick="clearAllData()">🗑️ مسح الكل</button>
+      <button class="btn btn-dn" onclick="factoryReset()" style="background:rgba(139,0,0,.3);border-color:rgba(255,0,0,.5)">⚠️ إعادة ضبط المصنع</button>
       <button class="btn btn-dn" onclick="clearCloudEmps()" style="background:rgba(139,0,0,.2);border-color:rgba(139,0,0,.5)">🗑️ مسح موظفي السحابة</button>
     </div></div>
   </div>
