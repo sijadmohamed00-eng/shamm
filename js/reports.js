@@ -416,8 +416,10 @@ function exportSalaryPDF(empId){
   showToast('✅ تم التصدير','s');
 }
 
-function resetDemo(){if(!confirm('إعادة تهيئة؟'))return;['emps','att','msg','reports','archive','lastReset','remembered'].forEach(k=>DB.del(k));initData();renderAdmin();showToast('تمت الإعادة','i')}
-function clearAll(){if(!confirm('⚠️ مسح كل البيانات نهائياً؟'))return;['emps','att','msg','reports','archive','lastReset','remembered'].forEach(k=>DB.del(k));renderAdmin();showToast('تم المسح','i')}
+const ALL_DATA_KEYS=['emps','att','msg','reports','archive','lastReset','remembered','leaveRequests','loanRequests','adminLogs','groupChat','dailyShifts','shifts','subAdmins','empToAdminMsg','empPhotos','sales'];
+function resetDemo(){if(!confirm('إعادة تهيئة كامله؟ سيتم مسح كل البيانات!'))return;ALL_DATA_KEYS.forEach(k=>DB.del(k));localStorage.clear();initData();renderAdmin();showToast('تمت الإعادة','s')}
+function clearAll(){if(!confirm('⚠️ مسح كل البيانات نهائياً؟'))return;ALL_DATA_KEYS.forEach(k=>DB.del(k));localStorage.clear();renderAdmin();showToast('تم المسح','s')}
+function fullFactoryReset(){if(!confirm('⚠️⚠️⚠️ إعادة ضبط المصنع الكامل؟\nسيتم مسح كل البيانات نهائياً\nبما فيها جميع المحادثات والإعدادات!\nهل أنت متأكد؟'))return;ALL_DATA_KEYS.forEach(k=>DB.del(k));Object.keys(localStorage).forEach(k=>{if(k.startsWith('ccs2_')||k.startsWith('groupchat')||k.startsWith('emp')||k.startsWith('att'))localStorage.removeItem(k)});location.reload()}
 
 // ═══════════════════════════════════════════════════
 //  MODAL UTILS
