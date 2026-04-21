@@ -1,13 +1,36 @@
 // ══════════════════════════════════════════════════════
 //  TELEGRAM PROXY — بروكسي تليجرام
-// ══════════════════════════════════════════════════════
+// ═══════���══════════════════════════════════════════════
 function saveTgProxy(){
-  const v=document.getElementById('tgProxyInput')?.value.trim();
+  const v=document.getElementById('tgProxyInput')?.value.trim()||document.getElementById('tgProxyUrl')?.value.trim();
   if(!v){showToast('أدخل رابط البروكسي','e');return;}
   DB.set('tgProxy',v);
   const el=document.getElementById('proxyStatus');
   if(el)el.textContent='✅ تم حفظ البروكسي';
   showToast('✅ تم حفظ البروكسي','s');
+}
+
+function openTgProxy(){
+  const proxy=DB.get('tgProxy');
+  if(!proxy){showToast('لا يوجد بروكسي محفوظ','e');return;}
+  window.open(proxy,'_blank');
+}
+
+function clearTgProxy(){
+  DB.del('tgProxy');
+  const inp=document.getElementById('tgProxyInput')||document.getElementById('tgProxyUrl');
+  if(inp)inp.value='';
+  const el=document.getElementById('proxyStatus');
+  if(el)el.textContent='تم إزالة البروكسي';
+  showToast('تم إزالة البروكسي','i');
+}
+
+function loadTgProxy(){
+  const proxy=DB.get('tgProxy');
+  const inp=document.getElementById('tgProxyInput')||document.getElementById('tgProxyUrl');
+  const el=document.getElementById('proxyStatus');
+  if(inp&&proxy){inp.value=proxy;}
+  if(el&&proxy)el.textContent='✅ بروكسي محفوظ';
 }
 
 function openTgProxy(){
