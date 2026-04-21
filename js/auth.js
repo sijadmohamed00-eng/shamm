@@ -130,7 +130,8 @@ function tryAutoLogin(){
   setTimeout(doAutoLogin, 1200);
 }
 
-function logout(s clearData=false){
+function logout(clearData){
+  if(typeof clearData === 'undefined') clearData = false;
   CU=null; gpsOk=false; SA_MODE=false; CU_PERMS=null;
   // أوقف مراقبة GPS
   if(_gpsWatchId!==null&&navigator.geolocation){
