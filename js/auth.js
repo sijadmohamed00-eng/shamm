@@ -130,22 +130,31 @@ function tryAutoLogin(){
   setTimeout(doAutoLogin, 1200);
 }
 
-function logout(){
+function logout(s clearData=false){
   CU=null; gpsOk=false; SA_MODE=false; CU_PERMS=null;
   // أوقف مراقبة GPS
   if(_gpsWatchId!==null&&navigator.geolocation){
     navigator.geolocation.clearWatch(_gpsWatchId);
     _gpsWatchId=null;
   }
-  autoTimers.forEach(t=>clearInterval(t)); autoTimers=[];
-  DB.del('remembered');
+  autoTimers.forEach(function(t){clearInterval(t);}); autoTimers=[];
+  // Only clear remembered if clearData=true (manual full logout)
+  if(clearData){
+    DB.del('remembered');
+  }
   showScreen('loginScreen');
   document.getElementById('lUser').value='';
   document.getElementById('lPass').value='';
   // Restore hidden sidebar/nav items
-  document.querySelectorAll('#adminScreen .sitem, #adminScreen .mnav-item').forEach(el=>el.style.display='');
-  document.querySelectorAll('[onclick*="openAddEmp"]').forEach(el=>el.style.display='');
+  document.querySelectorAll('#adminScreen .sitem, #adminScreen .mnav-item').forEach(function(el){el.style.display='';});
+  document.querySelectorAll('[onclick*="openAddEmp"]').forEach(function(el){el.style.display='';});
 }
+
+// Simple logout keeps session, full logout clears everything
+window.fullLogout = function(){
+  if(!confirm('تسجيل خروج كامل؟ (سيفقد بيانات الحفظ التلقائي)'))return;
+  logout(true);
+};
 
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));

@@ -884,31 +884,11 @@
         <input type="text" class="fi" id="tgProxyUrl" placeholder="tg://proxy?server=...&port=...&secret=..." style="direction:ltr;text-align:left;font-size:11px">
       </div>
       <div class="flex g8" style="flex-wrap:wrap">
-        <button class="btn btn-ok btn-sm" onclick="saveTgProxy()">💾 حفظ البروكسي</button>
-        <button class="btn btn-sc btn-sm" onclick="openTgProxy()">🔗 فتح في تليجرام</button>
+        <button class="btn btn-ok btn-sm" onclick="saveTgProxy()">💾 حفظ</button>
+        <button class="btn btn-sc btn-sm" onclick="openTgProxy()">🔗 فتح</button>
         <button class="btn btn-dn btn-sm" onclick="clearTgProxy()">🗑️ حذف</button>
       </div>
       <div id="proxyStatus" style="margin-top:8px;font-size:12px;color:var(--t2)"></div>
-    </div>
-  </div>
-
-  
-  <!-- بروكسي تليجرام -->
-  <div class="card mb12" style="border-color:rgba(0,136,204,.2);background:rgba(0,136,204,.03)">
-    <div class="ch"><h3>🔗 بروكسي تليجرام</h3></div>
-    <div class="cb">
-      <div style="font-size:12px;color:var(--t2);margin-bottom:12px;line-height:1.8">
-        إذا تليجرام ما يشتغل بدون بروكسي، أضف بروكسي هنا وسيُستخدم تلقائياً
-      </div>
-      <div class="fg"><label>رابط البروكسي (tg://proxy أو https://)</label>
-        <input type="text" class="fi" id="tgProxyInput" placeholder="tg://proxy?server=...&port=...&secret=..." style="direction:ltr;text-align:left;font-size:11px">
-      </div>
-      <div class="flex g8" style="flex-wrap:wrap">
-        <button class="btn btn-ok btn-sm" onclick="saveTgProxy()">💾 حفظ البروكسي</button>
-        <button class="btn btn-sc btn-sm" onclick="openTgProxy()">🔗 فتح البروكسي</button>
-        <button class="btn btn-dn btn-sm" onclick="clearTgProxy()">🗑️ إزالة</button>
-      </div>
-      <div id="proxyStatus" style="font-size:11px;color:var(--t2);margin-top:8px"></div>
     </div>
   </div>
 
