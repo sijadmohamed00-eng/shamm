@@ -437,6 +437,14 @@ function showToast(msg,type='i'){
   c.appendChild(t); setTimeout(()=>t.remove(),3200);
 }
 
+// Export functions to global scope for HTML onclick handlers
+window.resetDemo = resetDemo;
+window.clearAll = clearAll;
+window.fullFactoryReset = fullFactoryReset;
+window.showToast = showToast;
+window.openModal = openModal;
+window.closeModal = closeModal;
+
 // ═══════════════════════════════════════════════════
 //  BOOT
 // ═══════════════════════════════════════════════════

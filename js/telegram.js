@@ -1,13 +1,36 @@
 // ══════════════════════════════════════════════════════
 //  TELEGRAM PROXY — بروكسي تليجرام
-// ══════════════════════════════════════════════════════
+// ═══════���══════════════════════════════════════════════
 function saveTgProxy(){
-  const v=document.getElementById('tgProxyInput')?.value.trim();
+  const v=document.getElementById('tgProxyInput')?.value.trim()||document.getElementById('tgProxyUrl')?.value.trim();
   if(!v){showToast('أدخل رابط البروكسي','e');return;}
   DB.set('tgProxy',v);
   const el=document.getElementById('proxyStatus');
   if(el)el.textContent='✅ تم حفظ البروكسي';
   showToast('✅ تم حفظ البروكسي','s');
+}
+
+function openTgProxy(){
+  const proxy=DB.get('tgProxy');
+  if(!proxy){showToast('لا يوجد بروكسي محفوظ','e');return;}
+  window.open(proxy,'_blank');
+}
+
+function clearTgProxy(){
+  DB.del('tgProxy');
+  const inp=document.getElementById('tgProxyInput')||document.getElementById('tgProxyUrl');
+  if(inp)inp.value='';
+  const el=document.getElementById('proxyStatus');
+  if(el)el.textContent='تم إزالة البروكسي';
+  showToast('تم إزالة البروكسي','i');
+}
+
+function loadTgProxy(){
+  const proxy=DB.get('tgProxy');
+  const inp=document.getElementById('tgProxyInput')||document.getElementById('tgProxyUrl');
+  const el=document.getElementById('proxyStatus');
+  if(inp&&proxy){inp.value=proxy;}
+  if(el&&proxy)el.textContent='✅ بروكسي محفوظ';
 }
 
 function openTgProxy(){
@@ -70,19 +93,32 @@ function loadTgProxy(){
 //  CLEAR ARCHIVED — مسح السجلات المنتهية
 // ═══════════════════════════════════════════════════
 function clearArchivedLeaves(){
+  console.log('clearArchivedLeaves called');
   if(!confirm('مسح كل طلبات الإجازة المنتهية (المقبولة والمرفوضة)؟'))return;
   const all=DB.get('leaveRequests')||[];
-  DB.set('leaveRequests',all.filter(l=>l.status==='pending'));
-  try{renderLeaveRequests();}catch(e){}
-  showToast('🗑️ تم مسح السجل','i');
+  const filtered=all.filter(l=>l.status==='pending');
+  DB.set('leaveRequests',filtered);
+  console.log('Leaves after filter:', filtered.length);
+  // Refresh the UI
+  try{
+    if(typeof renderLeaveRequests==='function')renderLeaveRequests();
+    if(typeof renderAdminLeaveRequests==='function')renderAdminLeaveRequests();
+  }catch(e){console.error('Render error:',e);}
+  showToast('🗑️ تم مسح السجل','s');
 }
 
 function clearArchivedLoans(){
+  console.log('clearArchivedLoans called');
   if(!confirm('مسح كل طلبات السلف المنتهية (المقبولة والمرفوضة)؟'))return;
   const all=DB.get('loanRequests')||[];
-  DB.set('loanRequests',all.filter(l=>l.status==='pending'));
-  try{renderAdminLoans();}catch(e){}
-  showToast('🗑️ تم مسح السجل','i');
+  const filtered=all.filter(l=>l.status==='pending');
+  DB.set('loanRequests',filtered);
+  console.log('Loans after filter:', filtered.length);
+  // Refresh the UI
+  try{
+    if(typeof renderAdminLoans==='function')renderAdminLoans();
+  }catch(e){console.error('Render error:',e);}
+  showToast('🗑️ تم مسح السجل','s');
 }
 
 async function sendTg(text){
@@ -154,8 +190,11 @@ function renderAdminLogs(){
     </div>`).join('');
 }
 function clearAdminLogs(){
+  console.log('clearAdminLogs called');
   if(!confirm('مسح كل سجل العمليات؟'))return;
-  DB.del('adminLogs');renderAdminLogs();showToast('تم المسح','i');
+  DB.del('adminLogs');
+  try{renderAdminLogs();}catch(e){console.error(e);}
+  showToast('تم المسح','s');
 }
 
 // ── حذف تسجيل حضور (للموظف) ──
@@ -2519,3 +2558,9 @@ function openShiftCustomBon(){
   document.getElementById('cbReason').placeholder='مثال: شفت ليلي إضافي، تمديد دوام...';
   openModal('cbModal');
 }
+
+// Export functions to global scope for HTML onclick handlers
+window.clearArchivedLeaves = clearArchivedLeaves;
+window.clearArchivedLoans = clearArchivedLoans;
+window.clearAdminLogs = clearAdminLogs;
+window.fullFactoryReset = fullFactoryReset;
