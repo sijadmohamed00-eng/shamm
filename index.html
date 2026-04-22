@@ -872,6 +872,34 @@
     </div>
   </div>
 
+  <!-- واتساب -->
+  <div class="card mb12" style="border-color:rgba(37,211,102,.2);background:rgba(37,211,102,.03)">
+    <div class="ch"><h3>💬 واتساب</h3></div>
+    <div class="cb">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.8">
+        أرسل إشعارات عبر الواتساب بجانب التليجرام<br>
+        <span style="color:var(--green)">✅ مجاني - لا يحتاج إعدادات</span>
+      </div>
+      <div class="fg"><label>رقم الواتساب (بدون +)</label>
+        <input type="text" class="fi" id="waNumber" placeholder="9647710000000" style="direction:ltr;text-align:left">
+      </div>
+      <div class="fg"><label>رسالة الترحيب</label>
+        <input type="text" class="fi" id="waWelcomeMsg" placeholder="مرحباً بك في مطعم ابن الشام" value="مرحباً بك في مطعم ابن الشام 🍽️">
+      </div>
+      <div class="flex g8" style="flex-wrap:wrap">
+        <button class="btn btn-ok btn-sm" onclick="saveWaSettings()">💾 حفظ</button>
+        <button class="btn btn-sc btn-sm" onclick="testWa()">🧪 اختبار</button>
+      </div>
+      <div id="waStatus" style="margin-top:8px;font-size:12px;color:var(--t2)"></div>
+      <div style="background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);border-radius:10px;padding:10px;margin-top:12px;font-size:11px;color:var(--t2)">
+        📌 <strong style="color:var(--green)">كيف يعمل:</strong><br>
+        • النظام يفتح الواتساب ويكتب الرسالة جاهزة<br>
+        • الموظف يضغط إرسال من الواتساب<br>
+        • لا يحتاج رقم واتساب المدير秘书
+      </div>
+    </div>
+  </div>
+
   <!-- بروكسي تليجرام -->
   <div class="card mb12" style="border-color:rgba(0,136,204,.2);background:rgba(0,136,204,.03)">
     <div class="ch"><h3>🔗 بروكسي تليجرام</h3></div>
@@ -997,6 +1025,7 @@
         </div>
       </div>
       <div class="fg"><label>الراتب الشهري (د.ع) *</label><input type="number" class="fi" id="neSalary" placeholder="550000"></div>
+      <div class="fg"><label>رقم الواتساب</label><input type="text" class="fi" id="neWa" placeholder="9647710000000" style="direction:ltr"></div>
       <div class="fg"><label>ملاحظات</label><input type="text" class="fi" id="neNotes"></div>
     </div>
     <div class="mf"><button class="btn btn-sc" onclick="closeModal('addEmpModal')">إلغاء</button><button class="btn btn-pr" onclick="addEmp()">➕ إضافة</button></div>

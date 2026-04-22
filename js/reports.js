@@ -87,15 +87,16 @@ function addEmp(){
   const pw=document.getElementById('nePass').value.trim();
   const sh=document.getElementById('neShift').value;
   const sal=parseInt(document.getElementById('neSalary').value)||0;
+  const wa=document.getElementById('neWa').value.trim().replace(/\D/g,'');
   const notes=document.getElementById('neNotes').value.trim();
   if(!name||!pw||!sal){showToast('يرجى ملء الحقول المطلوبة','e');return}
   const emps=DB.get('emps')||[];
   if(emps.find(e=>e.u===u)){showToast('اليوزر مستخدم مسبقاً','e');return}
-  const newEmp={id:genId(),name,u,pw,sh,sal,notes,rating:0,bon:[],ded:[],lvM:0,jd:todayStr()};
+  const newEmp={id:genId(),name,u,pw,sh,sal,wa,notes,rating:0,bon:[],ded:[],lvM:0,jd:todayStr()};
   if(sh==='custom'){newEmp.customFrom=document.getElementById('neCustomFrom').value;newEmp.customTo=document.getElementById('neCustomTo').value;}
   emps.push(newEmp);
   DB.set('emps',emps); closeModal('addEmpModal'); renderAdmin();
-  sendTg(`👤 موظف جديد\nالاسم: ${name}\nاليوزر: ${u}\nالراتب: ${fmtN(sal)} د.ع`);
+  sendTg(`👤 موظف جديد\nالاسم: ${name}\nاليوزر: ${u}\nالراتب: ${fmtN(sal)} د.ع\nالواتساب: ${wa||'--'}`);
   showToast(`✅ تم إضافة ${name}`,'s');
 }
 
