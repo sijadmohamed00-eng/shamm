@@ -95,7 +95,7 @@
         <div class="fg"><label>اسم المستخدم</label><input type="text" id="lUser" placeholder="username" autocomplete="username" style="direction:ltr;text-align:left" autocapitalize="none"></div>
         <div class="fg" style="margin-bottom:6px"><label>كلمة المرور</label><input type="password" id="lPass" placeholder="••••••••" autocomplete="current-password"></div>
         <label class="remember-row"><input type="checkbox" id="rememberMe"><span>تذكرني — دخول تلقائي</span></label>
-        <button class="btn-login" onclick="doLogin()">دخول 🚀</button>
+        <button class="btn-login" id="loginBtn" onclick="doLogin()">دخول 🚀</button>
         <div class="lerr" id="lerr">❌ اسم المستخدم أو كلمة المرور غير صحيحة</div>
         </div>
     </div>
@@ -1525,6 +1525,12 @@
   border-top:1px solid rgba(255,255,255,0.08);
   background:rgba(255,255,255,0.02)
 ">
-  ©️ 2026 جميع الحقوق محفوظة - <span style="color:#f5a623;font-weight:700">سجاد محمد</span> 
+  <!-- DEBUG: Test login button -->
+  <script>
+    document.getElementById('loginBtn').addEventListener('click', function(){
+      console.log('✅-button clicked!');
+      alert('Button working!');
+    });
+  </script>
 </footer>
 </html>
