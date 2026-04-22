@@ -1,80 +1,40 @@
-// ═══════════════════════════════════════════════════════════════════
-//  BOOT — تهيئة النظام
-// ═══════════════════════════════════════════════════════════════════
+// ═══ INIT DATA ═══
+function initData(){
+  if(!DB.get('adminCreds')){
+    DB.set('adminCreds',{u:'sajjad_admin',pw:'Admin@2025'});
+  }
+}
 
-// Global error handler
-window.onerror = function(msg, url, line, col, error) {
-console.error(‘Global Error:’, msg, ‘at line’, line);
-return false;
-};
+// ═══ INIT THEME ═══
+function initTheme(){
+  var dark=localStorage.getItem('ccs2_theme');
+  if(dark==='dark'){document.body.classList.add('dark');}
+}
 
-// Make sure we run after DOM is ready
-document.addEventListener(‘DOMContentLoaded’, function(){
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+  localStorage.setItem('ccs2_theme',document.body.classList.contains('dark')?'dark':'light');
+}
 
-console.log(‘Main.js loaded - setting up clear functions’);
+// ═══ CLOCK ═══
+function startClock(){
+  function tick(){
+    var now=new Date();
+    var h=now.getHours(),m=now.getMinutes(),s=now.getSeconds();
+    var time=[h,m,s].map(function(x){return x<10?'0'+x:x;}).join(':');
+    var el=document.getElementById('empClock');
+    if(el){el.textContent=time;}
+    var el2=document.getElementById('adminClock');
+    if(el2){el2.textContent=time;}
+  }
+  tick();
+  setInterval(tick,1000);
+}
 
-// Master clear functions
-window.clearLeaveRequests = function(){
-if(!confirm(‘مسح طلبات الإجازة السابقة؟’))return;
-console.log(‘Clearing leave requests…’);
-try {
-localStorage.setItem(‘ccs2_leaveRequests’,JSON.stringify([]));
-var el = document.getElementById(‘leaveArchivedList’);
-if(el) el.innerHTML = ‘<div class="empty"><div class="ei">🌴</div><p>تم المسح</p></div>’;
-alert(‘تم مسح طلبات الإجازة!’);
-} catch(e) { console.error(e); alert(’Error: ’ + e.message); }
-};
-
-window.clearLoanRequests = function(){
-if(!confirm(‘مسح طلبات السلف السابقة؟’))return;
-console.log(‘Clearing loan requests…’);
-try {
-localStorage.setItem(‘ccs2_loanRequests’,JSON.stringify([]));
-var el = document.getElementById(‘loanArchivedList’);
-if(el) el.innerHTML = ‘<div class="empty"><div class="ei">💳</div><p>تم المسح</p></div>’;
-alert(‘تم مسح طلبات السلف!’);
-} catch(e) { console.error(e); alert(’Error: ’ + e.message); }
-};
-
-window.clearAllAdminLogs = function(){
-if(!confirm(‘مسح سجل العمليات؟’))return;
-console.log(‘Clearing admin logs…’);
-try {
-localStorage.setItem(‘ccs2_adminLogs’,JSON.stringify([]));
-var el = document.getElementById(‘adminLogsList’);
-if(el) el.innerHTML = ‘<div class="empty"><div class="ei">📝</div><p>لا توجد عمليات</p></div>’;
-alert(‘تم مسح سجل العمليات!’);
-} catch(e) { console.error(e); alert(’Error: ’ + e.message); }
-};
-
-window.clearAllData = function(){
-if(!confirm(‘⚠️ مسح كل البيانات نهائياً؟’))return;
-console.log(‘Clearing ALL data…’);
-try {
-var keys = [‘emps’,‘att’,‘msg’,‘reports’,‘archive’,‘lastReset’,‘remembered’,‘leaveRequests’,‘loanRequests’,‘adminLogs’,‘groupChat’,‘dailyShifts’,‘shifts’,‘subAdmins’,‘empToAdminMsg’,‘empPhotos’,‘sales’];
-keys.forEach(function(k){
-try { localStorage.removeItem(‘ccs2_’+k); } catch(e){}
-});
-alert(‘تم مسح كل البيانات!’);
-location.reload();
-} catch(e) { console.error(e); alert(’Error: ’ + e.message); }
-};
-
-window.factoryReset = function(){
-if(!confirm(‘⚠️⚠️⚠️ إعادة ضبط المصنع الكامل؟\nسيتم مسح كل البيانات نهائياً!\nهل أنت متأكد؟’))return;
-console.log(‘Factory reset…’);
-try {
-Object.keys(localStorage).forEach(function(k){
-if(k.startsWith(‘ccs2_’)) localStorage.removeItem(k);
-});
-location.reload();
-} catch(e) { console.error(e); alert(’Error: ’ + e.message); }
-};
-
-console.log(‘Clear functions registered’);
-
-// Initialize other stuff
-initData();
-initTheme();
-startClock();
+// ═══ STARTUP ═══
+document.addEventListener('DOMContentLoaded',function(){
+  initData();
+  initTheme();
+  startClock();
+  tryAutoLogin();
 });
