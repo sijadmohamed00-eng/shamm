@@ -1,6 +1,59 @@
 // ══════════════════════════════════════════════════════
+//  WHATSAPP — تكامل واتساب
+// ═══════════════════════════════════════════════════════
+function saveWaSettings(){
+  const num=document.getElementById('waNumber')?.value.trim();
+  const msg=document.getElementById('waWelcomeMsg')?.value.trim()||'مرحباً بك في مطعم ابن الشام 🍽️';
+  if(!num){showToast('أدخل رقم الواتساب','e');return;}
+  // Remove any non-digits
+  const cleanNum=num.replace(/\D/g,'');
+  DB.set('waNumber',cleanNum);
+  DB.set('waWelcomeMsg',msg);
+  const el=document.getElementById('waStatus');
+  if(el)el.textContent='✅ تم حفظ إعدادات الواتساب';
+  showToast('✅ تم حفظ إعدادات الواتساب','s');
+}
+
+function loadWaSettings(){
+  const num=DB.get('waNumber');
+  const msg=DB.get('waWelcomeMsg')||'مرحباً بك في مطعم ابن الشام 🍽️';
+  const numEl=document.getElementById('waNumber');
+  const msgEl=document.getElementById('waWelcomeMsg');
+  if(numEl&&num)numEl.value=num;
+  if(msgEl)msgEl.value=msg;
+}
+
+function testWa(){
+  const num=DB.get('waNumber');
+  const msg=DB.get('waWelcomeMsg')||'مرحباً بك في مطعم ابن الشام 🍽️';
+  if(!num){showToast('أضف رقم الواتساب أولاً','e');return;}
+  sendWa(msg,num);
+}
+
+function sendWa(text,customNum){
+  const num=customNum||DB.get('waNumber');
+  if(!num){showToast('رقم الواتساب غير موجود','e');return;}
+  // Clean number
+  let clean=num.replace(/\D/g,'');
+  // Add country code if not present
+  if(!clean.startsWith('964')){clean='964'+clean;}
+  const url='https://wa.me/'+clean+'?text='+encodeURIComponent(text);
+  window.open(url,'_blank');
+  showToast('✅ تم فتح الواتساب','s');
+}
+
+// Send notification to employee via WhatsApp
+function notifyEmpWa(emp,message){
+  if(!emp.wa||emp.wa===''){
+    console.log('No WhatsApp number for',emp.name);
+    return;
+  }
+  sendWa(message,emp.wa);
+}
+
+// ══════════════════════════════════════════════════════
 //  TELEGRAM PROXY — بروكسي تليجرام
-// ═══════���══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function saveTgProxy(){
   const v=document.getElementById('tgProxyInput')?.value.trim()||document.getElementById('tgProxyUrl')?.value.trim();
   if(!v){showToast('أدخل رابط البروكسي','e');return;}
@@ -339,9 +392,21 @@ function respondLeave(id,status){
       const per=getPeriod();const lvKey='lvM';
       emps[ei][lvKey]=(emps[ei][lvKey]||0)+1;
       DB.set('emps',emps);
+      // إرسال واتساب
+      if(emps[ei].wa){
+        const waMsg='✅ تم الموافقة على طلب الإجازة\nالتاريخ: '+fmtD(r.date)+'\nمطعم ابن الشام';
+        notifyEmpWa(emps[ei],waMsg);
+      }
     }
     sendTg(`✅ تمت الموافقة على إجازة ${r.ename}\nالتاريخ: ${fmtD(r.date)}`);
   } else {
+    // إرسال واتساب رفض
+    const emps=DB.get('emps')||[];
+    const emp=emps.find(e=>e.id===r.eid);
+    if(emp&&emp.wa){
+      const waMsg='❌ تم رفض طلب الإجازة\nالتاريخ: '+fmtD(r.date)+'\nمطعم ابن الشام';
+      notifyEmpWa(emp,waMsg);
+    }
     sendTg(`❌ تم رفض طلب إجازة ${r.ename}\nالتاريخ: ${fmtD(r.date)}`);
   }
   addAdminLog('leave_'+status,`${status==='approved'?'موافقة':'رفض'} إجازة ${r.ename}`,{date:r.date});
@@ -1323,6 +1388,11 @@ function approveLoan(id){
     if(!emps[ei].ded)emps[ei].ded=[];
     emps[ei].ded.push({amount:loan.amount,reason:`سلفة — ${loan.reason}`,date:todayStr(),isLoan:true,loanId:id});
     DB.set('emps',emps);
+    // إرسال واتساب
+    if(emps[ei].wa){
+      const waMsg='✅ تمت الموافقة على السلفة\nالمبلغ: '+fmtN(loan.amount)+' د.ع\nستُخصم من الراتب\nمطعم ابن الشام';
+      notifyEmpWa(emps[ei],waMsg);
+    }
   }
   loans[i].status='deducted';
   loans[i].approvedAt=new Date().toISOString();
