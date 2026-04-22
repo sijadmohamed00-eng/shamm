@@ -1,102 +1,44 @@
-// ═══════════════════════════════════════════════════
-//  THEME — الوضع الداكن والفاتح
-// ═══════════════════════════════════════════════════
-function toggleTheme(){
-const html=document.documentElement;
-const isLight=html.getAttribute(‘data-theme’)===‘light’;
-if(isLight){
-html.removeAttribute(‘data-theme’);
-DB.set(‘theme’,‘dark’);
-document.querySelectorAll(’#themeBtn,#themeBtnEmp’).forEach(b=>{if(b)b.textContent=‘🌙’;});
-} else {
-html.setAttribute(‘data-theme’,‘light’);
-DB.set(‘theme’,‘light’);
-document.querySelectorAll(’#themeBtn,#themeBtnEmp’).forEach(b=>{if(b)b.textContent=‘☀️’;});
-}
+// ═══ UI HELPERS ═══
+function showToast(msg,type){
+  type=type||'i';
+  var colors={'s':'#4caf50','i':'#2196f3','w':'#ff9800','e':'#f44336'};
+  var el=document.createElement('div');
+  el.style.cssText='position:fixed;top:20px;right:20px;background:'+(colors[type]||'#333')+';color:white;padding:12px 20px;border-radius:8px;z-index:99999;font-size:14px;animation:fadeIn .3s';
+  el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(function(){el.style.animation='fadeOut .3s';setTimeout(function(){document.body.removeChild(el);},300);},3000);
 }
 
-function initTheme(){
-const saved=DB.get(‘theme’)||‘dark’;
-const apply=()=>{
-if(saved===‘light’){
-document.documentElement.setAttribute(‘data-theme’,‘light’);
-document.querySelectorAll(’#themeBtn,#themeBtnEmp’).forEach(b=>{if(b)b.textContent=‘☀️’;});
-} else {
-document.documentElement.removeAttribute(‘data-theme’);
-document.querySelectorAll(’#themeBtn,#themeBtnEmp’).forEach(b=>{if(b)b.textContent=‘🌙’;});
-}
-};
-if(document.readyState===‘loading’){
-document.addEventListener(‘DOMContentLoaded’,apply);
-} else {
-apply();
-}
+function openModal(id){
+  var el=document.getElementById(id);
+  if(el){el.style.display='flex';}
 }
 
-function startClock(){
-const t=setInterval(()=>{
-const now=new Date();
-const s=now.toLocaleTimeString(‘ar-IQ’,{hour12:true,hour:‘2-digit’,minute:‘2-digit’,second:‘2-digit’});
-[‘empClock’,‘adminClock’].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=s});
-// reset يومي ساعة 5:00:00 صباحاً
-if(now.getHours()===5&&now.getMinutes()===0&&now.getSeconds()===0){
-_dailyAttReset();
-}
-// smart alerts كل دقيقة
-if(now.getSeconds()===0)checkSmartAlerts();
-},1000);
-autoTimers.push(t);
+function closeModal(id){
+  var el=document.getElementById(id);
+  if(el){el.style.display='none';}
 }
 
-// ── reset يومي للحضور ساعة 5 صباحاً ──
-function _dailyAttReset(){
-const today=todayStr();
-const lastReset5=DB.get(‘lastReset5’)||’’;
-if(lastReset5===today)return; // نفّذ مرة واحدة فقط لكل يوم
-DB.set(‘lastReset5’,today);
-
-// أرشفة الفترة إذا وصلنا لأول الشهر
-checkPeriodReset();
-
-// إشعار المدير بملخص الأمس
-const att=DB.get(‘att’)||[];
-const emps=DB.get(‘emps’)||[];
-// حساب أمس
-const yest=new Date(); yest.setDate(yest.getDate()-1);
-const yestStr=yest.toISOString().split(‘T’)[0];
-const presYest=emps.filter(e=>att.some(a=>a.eid===e.id&&a.date===yestStr&&a.type===‘ci’));
-const absYest=emps.filter(e=>!att.some(a=>a.eid===e.id&&a.date===yestStr&&a.type===‘ci’));
-
-// بناء تقرير الأمس + إرسال لتليجرام
-let msg=`🌅 تقرير نهاية اليوم — ${fmtD(yestStr)}\n`;
-msg+=`━━━━━━━━━━━━━━━\n`;
-msg+=`✅ حضروا (${presYest.length}): ${presYest.map(e=>e.name).join('، ')||'—'}\n`;
-msg+=`❌ غابوا (${absYest.length}): ${absYest.map(e=>e.name).join('، ')||'—'}\n`;
-absYest.forEach(e=>{
-// تسجيل غياب تلقائي (بدون تسجيل حضور)
-// لا نضيف سجل غياب في att — فقط يُحسب من غياب الحضور
-// يمكن إضافة علامة غياب للمدير
-});
-msg+=`━━━━━━━━━━━━━━━\n⏰ سيبدأ دوام ${fmtD(today)} بعد قليل`;
-sendTg(msg);
-saveReportToArchive(msg,‘auto’);
-
-// إشعار في الواجهة إذا كان المدير مسجلاً
-if(CU?.role===‘admin’){
-showToast(`🌅 Reset يومي — ${absYest.length} غائب أمس، ${presYest.length} حضروا`,‘i’);
-renderAdmin();
-}
-console.log(‘✅ Daily reset done at 5AM —’,today);
+function showATab(tab,el){
+  document.querySelectorAll('#adminMainScroll .tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('#adminScreen .sitem').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('at-'+tab).classList.add('active');
+  if(el){el.classList.add('active');}
 }
 
-// ═══════════════════════════════════════════════════
-//  GPS
-// ═══════════════════════════════════════════════════
-let _gpsWatchId=null;
-let _autoCoEnabled=true; // الانصراف التلقائي مُفعَّل افتراضياً
-const AUTO_CO_DIST=750; // متر
+function showETab(tab,el){
+  document.querySelectorAll('#empMainScroll .tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('#empSidebar .sitem, #empMobileNav .mnav-item').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('et-'+tab).classList.add('active');
+  if(el){el.classList.add('active');}
+}
 
-// Export to window
-window.toggleTheme = toggleTheme;
-window.initTheme = initTheme;
-window.startClock = startClock;
+function formatNum(n){
+  return (n||0).toLocaleString('en-US');
+}
+
+function formatDate(d){
+  if(!d)return '--';
+  var dt=new Date(d);
+  return dt.getFullYear()+'/'+(dt.getMonth()+1)+'/'+dt.getDate();
+}
