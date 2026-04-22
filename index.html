@@ -747,7 +747,7 @@ textarea.fi{resize:vertical;min-height:80px}
 <div class="screen" id="adminScreen">
   <div class="topbar">
     <div class="tb-brand">
-      <img src="icon.png" class="tb-icon-img" alt="سندريلا" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="tb-icon" style="background:linear-gradient(135deg,var(--gold),#ffab40);display:none">👑</div>
+      <img src="icon.png" class="tb-icon-img" alt="ابن الشام" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="tb-icon" style="background:linear-gradient(135deg,var(--gold),#ffab40);display:none">👑</div>
       <div><h1>ابن الشام | لوحة التحكم</h1><span>اور — حي أور</span></div>
     </div>
     <div class="tb-right">
@@ -762,7 +762,7 @@ textarea.fi{resize:vertical;min-height:80px}
   <div class="sysbar">
     <span>📅 <span id="adminDateBar">--</span></span>
     <span>👥 <span id="adminEC" style="color:var(--cyan)">0</span> موظف</span>
-    <span>📍 شارع فلسطين، بغداد</span>
+    <span>📍 حي اور، اور</span>
     <span><span class="pdot"></span> يعمل</span><span id="syncStatus" style="color:var(--t3)">🔄 محلي</span>
   </div>
   <div class="layout">
@@ -1212,7 +1212,7 @@ textarea.fi{resize:vertical;min-height:80px}
         <div class="ii"><div class="lb">خط العرض</div><div class="vl cyan" id="cfgLat">33.357460</div></div>
         <div class="ii"><div class="lb">خط الطول</div><div class="vl cyan" id="cfgLng">44.424685</div></div>
         <div class="ii"><div class="lb">النطاق</div><div class="vl green" id="cfgRad">100 متر</div></div>
-        <div class="ii"><div class="lb">العنوان</div><div class="vl" style="font-size:11px">شارع فلسطين، بغداد</div></div>
+        <div class="ii"><div class="lb">العنوان</div><div class="vl" style="font-size:11px">حي اور، اور</div></div>
       </div>
       <div class="flex g8" style="flex-wrap:wrap">
         <div style="flex:1;min-width:120px"><label style="font-size:11px;color:var(--t3);display:block;margin-bottom:4px">خط العرض</label><input type="number" class="fi" id="inpLat" step="0.0001" value="33.3574598"></div>
@@ -1845,7 +1845,7 @@ function saveAndInitFirebase(){
 
 function testFirebase(){
   if(!fbSyncEnabled||!fbDB){showToast('فعّل المزامنة أولاً','e');return;}
-  fbDB.ref('ccs/test').set({t:Date.now(),msg:'اختبار سندريلا'})
+  fbDB.ref('ccs/test').set({t:Date.now(),msg:'اختبار ابن الشام'})
     .then(()=>{showToast('✅ اتصال Firebase يعمل بشكل مثالي!','s');})
     .catch(e=>{showToast('❌ خطأ: '+e.message,'e');});
 }
@@ -2650,7 +2650,7 @@ function showEmpArchDetail(periodKey,eid){
   document.getElementById('archDetailTitle').textContent=`أرشيف: ${per.label}`;
   document.getElementById('archDetailContent').innerHTML=`
     <div class="slip">
-      <div class="sliph"><h4>👑 سندريلا — ${per.label}</h4><p>${emp.name}</p></div>
+      <div class="sliph"><h4>👑 ابن الشام — ${per.label}</h4><p>${emp.name}</p></div>
       <div class="srow"><div class="sl2">الراتب الشهري</div><div class="sv2 gnum">${fmtN(emp.sal)} د.ع</div></div>
       <div class="srow"><div class="sl2">أيام الحضور</div><div class="sv2 tgrn">${emp.daysPresent} يوم</div></div>
       <div class="srow grn"><div class="sl2">الراتب المكتسب</div><div class="sv2">${fmtN(emp.earnedSalary)} د.ع</div></div>
@@ -3528,7 +3528,7 @@ function exportData(){
 function exportSalaryPDF(empId){
   const emp=(DB.get('emps')||[]).find(e=>e.id===empId); if(!emp)return;
   const c=calcSalary(emp);
-  const content=`سندريلا — كول سنتر بغداد\nكشف الراتب\n━━━━━━━━━━━━━━━━━━━━━\nالموظف: ${emp.name}\nالفترة: ${c.per.label}\n━━━━━━━━━━━━━━━━━━━━━\nالراتب الشهري: ${fmtN(emp.sal)} د.ع\nأيام الحضور: ${c.daysPresent}\nالراتب المكتسب: ${fmtN(c.earnedSalary)} د.ع\nمكافآت الشفتات: +${fmtN(c.shiftBonTotal)} د.ع\nحوافز: +${fmtN(c.salesBonTotal+c.otherBonTotal)} د.ع\nخصومات: -${fmtN(c.totalDed)} د.ع\n━━━━━━━━━━━━━━━━━━━━━\nالإجمالي: ${fmtN(c.net)} د.ع\n━━━━━━━━━━━━━━━━━━━━━`;
+  const content=`ابن الشام — كول سنتر اور\nكشف الراتب\n━━━━━━━━━━━━━━━━━━━━━\nالموظف: ${emp.name}\nالفترة: ${c.per.label}\n━━━━━━━━━━━━━━━━━━━━━\nالراتب الشهري: ${fmtN(emp.sal)} د.ع\nأيام الحضور: ${c.daysPresent}\nالراتب المكتسب: ${fmtN(c.earnedSalary)} د.ع\nمكافآت الشفتات: +${fmtN(c.shiftBonTotal)} د.ع\nحوافز: +${fmtN(c.salesBonTotal+c.otherBonTotal)} د.ع\nخصومات: -${fmtN(c.totalDed)} د.ع\n━━━━━━━━━━━━━━━━━━━━━\nالإجمالي: ${fmtN(c.net)} د.ع\n━━━━━━━━━━━━━━━━━━━━━`;
   const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download=`${emp.name}-${todayStr()}.txt`; a.click();
@@ -4057,7 +4057,7 @@ function requestBrowserNotif(){
 }
 function sendBrowserNotif(title,body){
   if('Notification' in window&&Notification.permission==='granted'){
-    new Notification('👑 سندريلا — '+title,{body,icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">👑</text></svg>'});
+    new Notification('👑 ابن الشام — '+title,{body,icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">👑</text></svg>'});
   }
 }
 
@@ -4078,7 +4078,7 @@ function buildWeeklyReport(){
   // آخر 7 أيام
   const days=[];
   for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);days.push(d.toISOString().split('T')[0]);}
-  let text=`📊 التقرير الأسبوعي — سندريلا\n`;
+  let text=`📊 التقرير الأسبوعي — ابن الشام\n`;
   text+=`الأسبوع: ${fmtD(days[0])} — ${fmtD(days[6])}\n`;
   text+=`━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   emps.forEach(e=>{
