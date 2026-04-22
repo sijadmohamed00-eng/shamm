@@ -94,5 +94,6 @@ function setGPSUI(s,t,sb){
 // ═══════════════════════════════════════════════════
 //  EMPLOYEE SCREEN
 // ═══════════════════════════════════════════════════
-function getEmp(){return(DB.get('emps')||[]).find(e=>e.id===CU?.id)}
+function getEmp(){return(DB.get('emps')||[]).find(function(e){return e.id===(CU&&CU.id);})}
+window.getEmp=getEmp;
 
