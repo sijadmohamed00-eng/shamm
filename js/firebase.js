@@ -1,10 +1,5 @@
-let fbDB=null,fbSyncEnabled=false;
-const DB={
-get(k){try{return JSON.parse(localStorage.getItem(‘ccs2_’+k))}catch{return null}},
-set(k,v){localStorage.setItem(‘ccs2_’+k,JSON.stringify(v));if(typeof SYNC_KEYS!==‘undefined’&&SYNC_KEYS.includes(k)&&typeof _syncToCloud===‘function’)*syncToCloud(k,v);},
-del(k){localStorage.removeItem(’ccs2*’+k)}
-};
-window.DB = DB;
+// fbDB, fbSyncEnabled, DB, CU and all globals declared in config.js (loads first)
+// DB is defined in config.js (loads first)
 // ═══ FIREBASE REALTIME SYNC ═══
 // ═══ FIREBASE CONFIG (REAL - abn-alsham) ═══
 const _REAL_FB_CFG={
@@ -27,7 +22,7 @@ let fbApp=null;
 // ════════════════════════════════════════════
 //  FIREBASE SYNC — COMPLETE REWRITE
 // ════════════════════════════════════════════
-const SYNC_KEYS=[‘emps’,‘att’,‘msg’,‘reports’,‘archive’,‘groupChat’,‘leaveRequests’,‘salesLog’,‘adminLogs’,‘loanRequests’,‘shiftArchives’,‘dailyShifts’];
+// SYNC_KEYS declared in config.js
 let _fbListening=false;
 
 function initFirebase(cfg){
@@ -185,10 +180,7 @@ _setSyncUI(‘fail’,’❌ خطأ كتابة: ’+e.code);
 }
 // ═══ END FIREBASE ═══
 
-let CU=null, DID=null, QSID=null, gpsOk=false, uLat=null, uLng=null;
-let salChartI=null, attChartI=null;
-let autoTimers=[];
-let viewingReportId=null;
+// CU, DID, QSID, gpsOk, uLat, uLng, autoTimers, viewingReportId are declared in config.js
 
 // Work location (editable)
 function getWorkLoc(){return DB.get(‘workLoc’)||{lat:33.3089,lng:44.4425,rad:100}}
