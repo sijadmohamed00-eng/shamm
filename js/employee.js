@@ -1,31 +1,64 @@
 function loadEmpScreen(emp){
+  // Debug
+  console.log('loadEmpScreen called with emp:',emp);
+  console.log('CU:',window.CU);
+  
+  // Set global currentUser for photo upload
+  window.currentUser=emp;
+  
   // Show photo if exists, otherwise first letter
   var av=document.getElementById('empAv');
   var avBig=document.getElementById('empAvBig');
-  if(emp.photo){
-    if(av){av.style.backgroundImage='url('+emp.photo+')';av.textContent='';}
-    if(avBig){avBig.style.backgroundImage='url('+emp.photo+')';avBig.textContent='';}
-  } else {
-    if(av){av.style.backgroundImage='';av.textContent=emp.name.charAt(0);}
-    if(avBig){avBig.style.backgroundImage='';avBig.textContent=emp.name.charAt(0);}
+  if(av){
+    if(emp.photo){
+      av.style.backgroundImage='url('+emp.photo+')';
+      av.textContent='';
+    } else {
+      av.style.backgroundImage='';
+      av.textContent=emp.name?emp.name.charAt(0):'م';
+    }
   }
-  document.getElementById('empNameBar').textContent=emp.name;
-  document.getElementById('empNameBadge').textContent=emp.name;
-  document.getElementById('empWelcome').textContent='مرحباً،';
-  var nb=document.getElementById('empNameBig');if(nb)nb.textContent=emp.name+' 👋';
+  if(avBig){
+    if(emp.photo){
+      avBig.style.backgroundImage='url('+emp.photo+')';
+      avBig.style.backgroundSize='cover';
+      avBig.style.backgroundPosition='center';
+      avBig.textContent='';
+    } else {
+      avBig.style.backgroundImage='';
+      avBig.style.backgroundSize='';
+      avBig.textContent=emp.name?emp.name.charAt(0):'م';
+    }
+  }
+  var nameBar=document.getElementById('empNameBar');
+  if(nameBar)nameBar.textContent=emp.name||'--';
+  var nameBadge=document.getElementById('empNameBadge');
+  if(nameBadge)nameBadge.textContent=emp.name||'--';
+  var welcome=document.getElementById('empWelcome');
+  if(welcome)welcome.textContent='مرحباً،';
+  var nb=document.getElementById('empNameBig');if(nb)nb.textContent=(emp.name||'--')+' 👋';
   var now=new Date();
-  document.getElementById('empDateBar').textContent=now.toLocaleDateString('ar-IQ',{weekday:'long',month:'long',day:'numeric'});
-  document.getElementById('empWelcomeSub').textContent=now.toLocaleDateString('ar-IQ',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById('empShiftBar').textContent='الشفت: '+shiftLabel(emp);
-  refreshEmpUI(emp);
-  updTodayStatus(emp.id);
-  renderEmpHist(emp.id);
-  renderDayGrid(emp.id);
-  renderEmpAttPattern(emp.id);
-  updAttBtns();
-  renderEmpMessages(emp.id);
-  renderEmpArchive(emp.id);
-  startClock();
+  var dateBar=document.getElementById('empDateBar');
+  if(dateBar)dateBar.textContent=now.toLocaleDateString('ar-IQ',{weekday:'long',month:'long',day:'numeric'});
+  var welcomeSub=document.getElementById('empWelcomeSub');
+  if(welcomeSub)welcomeSub.textContent=now.toLocaleDateString('ar-IQ',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var shiftBar=document.getElementById('empShiftBar');
+  if(shiftBar){
+    if(typeof window.shiftLabel === 'function'){
+      shiftBar.textContent='الشفت: '+window.shiftLabel(emp);
+    } else {
+      shiftBar.textContent='الشفت: '+(emp.sh||'--');
+    }
+  }
+  try{refreshEmpUI(emp);}catch(e){console.error('refreshEmpUI error:',e);}
+  try{updTodayStatus(emp.id);}catch(e){console.error('updTodayStatus error:',e);}
+  try{renderEmpHist(emp.id);}catch(e){console.error('renderEmpHist error:',e);}
+  try{renderDayGrid(emp.id);}catch(e){console.error('renderDayGrid error:',e);}
+  try{renderEmpAttPattern(emp.id);}catch(e){console.error('renderEmpAttPattern error:',e);}
+  try{updAttBtns();}catch(e){console.error('updAttBtns error:',e);}
+  try{renderEmpMessages(emp.id);}catch(e){console.error('renderEmpMessages error:',e);}
+  try{renderEmpArchive(emp.id);}catch(e){console.error('renderEmpArchive error:',e);}
+  try{startClock();}catch(e){console.error('startClock error:',e);}
   // New v3/v4
   try{renderEmpLeaveHistory();}catch(e){}
   try{renderEmpLastAtt();}catch(e){}
@@ -281,3 +314,18 @@ function showETab(id,el){
   if(id==='loan')renderEmpLoanHistory();
   document.getElementById('empMainScroll')?.scrollTo(0,0);
 }
+
+// Export functions to window
+window.loadEmpScreen=loadEmpScreen;
+window.refreshEmpUI=refreshEmpUI;
+window.updTodayStatus=updTodayStatus;
+window.updAttBtns=updAttBtns;
+window.doCI=doCI;
+window.doCO=doCO;
+window.renderEmpHist=renderEmpHist;
+window.renderDayGrid=renderDayGrid;
+window.renderEmpAttPattern=renderEmpAttPattern;
+window.renderEmpMessages=renderEmpMessages;
+window.renderEmpArchive=renderEmpArchive;
+window.showETab=showETab;
+window.showEmpArchDetail=showEmpArchDetail;
