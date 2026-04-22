@@ -1,131 +1,77 @@
-// DEBUG: Login Fix - Added console.log for debugging
-
 function doLogin(){
-console.log('🔵 doLogin function CALLED');
-console.log('DB exists:', typeof DB !== 'undefined');
-console.log('showScreen exists:', typeof showScreen !== 'undefined');
-
-try {
 const u=document.getElementById('lUser').value.trim();
 const p=document.getElementById('lPass').value.trim();
 const rem=document.getElementById('rememberMe').checked;
 const err=document.getElementById('lerr');
 
-// Debug: check elements
-console.log('lUser element:', !!document.getElementById('lUser'));
-console.log('lPass element:', !!document.getElementById('lPass'));
-console.log('Username input:', u);
-console.log('Password input:', p);
+const creds=DB.get('adminCreds')||{u:'sajjad_admin',pw:'Admin@2025'};
 
-// Get credentials - try default if DB not available
-let creds;
-try {
-  creds = DB.get('adminCreds');
-} catch(e) {
-  console.log('DB.get error:', e);
-}
-if(!creds) {
-  creds = {u: 'sajjad_admin', pw: 'Admin@2025'};
-}
-console.log('Credentials:', creds);
-
-// Check login
-console.log('Checking credentials... u===creds.u:', u === creds.u, 'p===creds.pw:', p === creds.pw);
-
-if(u === creds.u && p === creds.pw){
-console.log('✅ Admin login success!');
-CU = {role: 'admin'};
-err.classList.remove('show');
-if(rem) DB.set('remembered', {role: 'admin'});
-
-// Show admin screen
-showScreen('adminScreen');
-if(typeof renderAdmin === 'function') renderAdmin();
-if(typeof startTimers === 'function') startTimers();
-if(typeof showToast === 'function') {
-  showToast('مرحباً يا سجاد 👑', 's');
-} else {
-  alert('مرحباً يا سجاد 👑');
-}
-return;
+if(u===creds.u&&p===creds.pw){
+  CU={role:'admin'};
+  err.classList.remove('show');
+  if(rem)DB.set('remembered',{role:'admin'});
+  showScreen('adminScreen');
+  if(typeof renderAdmin==='function')renderAdmin();
+  if(typeof startTimers==='function')startTimers();
+  showToast('مرحباً يا سجاد 👑','s');
+  return;
 }
 
-// Check employee login
-const emps = DB.get('emps') || [];
-const emp = emps.find(e => e.u === u && e.p === p);
+const emp=(DB.get('emps')||[]).find(e=>e.u===u&&e.pw===p);
 if(emp){
-console.log('✅ Employee login success!');
-CU = {role: 'emp', id: emp.id};
-err.classList.remove('show');
-showScreen('empScreen');
-if(typeof loadEmpScreen === 'function') loadEmpScreen(emp);
-if(typeof showToast === 'function') showToast('مرحباً ' + emp.name + ' 😊', 'i');
-return;
+  CU={role:'emp',id:emp.id};
+  err.classList.remove('show');
+  showScreen('empScreen');
+  if(typeof loadEmpScreen==='function')loadEmpScreen(emp);
+  showToast('مرحباً '+emp.name+' 😊','i');
+  return;
 }
 
-// Check sub-admin
-const subAdmins = DB.get('subAdmins') || [];
-const sa = subAdmins.find(a => a.u === u && a.p === p);
+const sa=(DB.get('subAdmins')||[]).find(a=>a.u===u&&a.pw===p);
 if(sa){
-console.log('✅ Sub-admin login success!');
-SA_MODE = true;
-CU = {role: 'admin', saId: sa.id, saName: sa.name};
-showScreen('adminScreen');
-if(typeof showToast === 'function') showToast('مرحباً ' + sa.name + ' 👋', 's');
-return;
+  SA_MODE=true;
+  CU={role:'admin',saId:sa.id,saName:sa.name};
+  showScreen('adminScreen');
+  showToast('مرحباً '+sa.name+' 👋','s');
+  return;
 }
 
-// No match - show error
-console.log('❌ Login failed - invalid credentials');
 err.classList.add('show');
-} catch(e) {
-console.error('doLogin error:', e);
-alert('Error: ' + e.message);
-}
 }
 
 function tryAutoLogin(){
-const rem = DB.get('remembered');
-if(!rem) return;
-console.log('🔄 Auto-login attempt, role:', rem.role);
-
-if(rem.role === 'admin'){
-CU = {role: 'admin'};
-showScreen('adminScreen');
-if(typeof renderAdmin === 'function') renderAdmin();
-} else if(rem.role === 'emp' && rem.id){
-const emps = DB.get('emps') || [];
-const emp = emps.find(e => e.id === rem.id);
-if(emp){
-CU = {role: 'emp', id: emp.id};
-showScreen('empScreen');
-if(typeof loadEmpScreen === 'function') loadEmpScreen(emp);
-}
+const rem=DB.get('remembered');
+if(!rem)return;
+if(rem.role==='admin'){
+  CU={role:'admin'};
+  showScreen('adminScreen');
+  if(typeof renderAdmin==='function')renderAdmin();
+}else if(rem.role==='emp'&&rem.id){
+  const emp=(DB.get('emps')||[]).find(e=>e.id===rem.id);
+  if(emp){
+    CU={role:'emp',id:emp.id};
+    showScreen('empScreen');
+    if(typeof loadEmpScreen==='function')loadEmpScreen(emp);
+  }
 }
 }
 
-function logout(clearData){
-if(typeof clearData === 'undefined') clearData = false;
-CU = null;
-SA_MODE = false;
-autoTimers.forEach(function(t){clearInterval(t);});
-autoTimers = [];
-if(clearData){
-try { DB.del('remembered'); } catch(e) {}
+function logout(){
+CU=null; gpsOk=false; SA_MODE=false; CU_PERMS=null;
+if(_gpsWatchId!==null&&navigator.geolocation){
+  navigator.geolocation.clearWatch(_gpsWatchId);
+  _gpsWatchId=null;
 }
+autoTimers.forEach(function(t){clearInterval(t);}); autoTimers=[];
 showScreen('loginScreen');
-document.getElementById('lUser').value = '';
-document.getElementById('lPass').value = '';
+document.getElementById('lUser').value='';
+document.getElementById('lPass').value='';
 }
 
 function showScreen(id){
-console.log('📺 showScreen:', id);
-document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 
-// Export to window
-window.doLogin = doLogin;
-window.tryAutoLogin = tryAutoLogin;
-window.logout = logout;
-window.showScreen = showScreen;
+document.getElementById('lPass').onkeydown=function(e){if(e.key==='Enter')doLogin()};
+document.getElementById('lUser').onkeydown=function(e){if(e.key==='Enter')doLogin()};
