@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -13,6 +14,7 @@
 <title>🍽️ ابن الشام — نظام الكول سنتر v4</title>
 
 <!-- CSS -->
+
 <link rel="stylesheet" href="css/variables.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
@@ -22,33 +24,59 @@
 <link rel="stylesheet" href="css/cinderella.css">
 
 <!-- Libraries -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 
 <!-- JS — الترتيب مهم -->
+
 <script src="js/config.js"></script>
-<script src="js/db.js"></script>
+
 <script src="js/firebase.js"></script>
+
+<script src="js/db.js"></script>
+
 <script src="js/ui.js"></script>
+
 <script src="js/salary.js"></script>
+
 <script src="js/attendance.js"></script>
+
 <script src="js/employee.js"></script>
+
 <script src="js/employees.js"></script>
+
 <script src="js/admin.js"></script>
+
 <script src="js/telegram.js"></script>
+
 <script src="js/auth.js"></script>
+
 <script src="js/chat.js"></script>
+
 <script src="js/sales.js"></script>
+
 <script src="js/reports.js"></script>
+
 <script src="js/shifts.js"></script>
+
 <script src="js/loans.js"></script>
+
 <script src="js/leaves.js"></script>
+
 <script src="js/subadmin.js"></script>
+
 <script src="js/map.js"></script>
+
 <script src="js/manual_att.js"></script>
+
 <script src="js/main.js"></script>
+
 </head>
 <body>
 <div id="toastWrap"></div>
@@ -446,6 +474,7 @@
     </div>
 
 <!-- EMPLOYEES -->
+
 <div class="tab" id="at-emp">
   <div class="ph fb">
     <div><h2>👥 الموظفون</h2></div>
@@ -459,6 +488,7 @@
 </div>
 
 <!-- ATTENDANCE -->
+
 <div class="tab" id="at-att">
   <div class="ph fb">
     <div><h2>📍 سجل الحضور</h2></div>
@@ -466,6 +496,7 @@
   </div>
 
   <!-- ✅ تسجيل حضور يدوي -->
+
   <div class="card mb16" style="border-color:rgba(0,230,118,.25);background:linear-gradient(135deg,rgba(0,230,118,.04),transparent)">
     <div class="ch"><h3 style="color:var(--green)">✏️ تسجيل حضور يدوي</h3><span class="cbadge" style="background:rgba(0,230,118,.1);color:var(--green)">من صلاحية المدير</span></div>
     <div class="cb">
@@ -501,6 +532,7 @@
 </div>
 
 <!-- SALARIES -->
+
 <div class="tab" id="at-sal">
   <div class="ph"><h2>💰 الرواتب</h2></div>
   <div class="card mb16" style="background:rgba(240,192,64,.04);border-color:rgba(240,192,64,.2)">
@@ -520,6 +552,7 @@
 </div>
 
 <!-- INCENTIVES -->
+
 <div class="tab" id="at-inc">
   <div class="ph"><h2>🎁 الحوافز اليومية</h2></div>
   <div class="card">
@@ -541,6 +574,7 @@
 </div>
 
 <!-- SHIFTS -->
+
 <div class="tab" id="at-sh">
   <div class="ph fb"><h2>🕐 الشفتات</h2><button class="btn btn-pr btn-sm" onclick="openAddShiftModal()">➕ إضافة شفت جديد</button></div>
   <div class="shgrid mb16" id="shiftCardsGrid">
@@ -582,12 +616,14 @@
 </div>
 
 <!-- RATINGS -->
+
 <div class="tab" id="at-rate">
   <div class="ph"><h2>⭐ تقييم الأداء</h2></div>
   <div class="card"><div class="cb" id="ratingContainer"></div></div>
 </div>
 
 <!-- ARCHIVE ADMIN -->
+
 <div class="tab" id="at-arch">
   <div class="ph fb">
     <div><h2>🗄️ الأرشيف الكامل</h2><p>كل البيانات التاريخية محفوظة دائماً</p></div>
@@ -599,6 +635,7 @@
 </div>
 
 <!-- REPORTS -->
+
 <div class="tab" id="at-rep">
   <div class="ph fb">
     <div><h2>📋 التقارير</h2></div>
@@ -621,6 +658,7 @@
 </div>
 
 <!-- MESSAGES -->
+
 <div class="tab" id="at-msg">
   <div class="ph"><h2>💬 إرسال رسالة</h2></div>
   <div class="card">
@@ -636,6 +674,7 @@
 </div>
 
 <!-- LEAVE REQUESTS -->
+
 <div class="tab" id="at-leave">
   <div class="ph"><h2>🌴 طلبات الإجازة</h2></div>
   <div class="card mb12">
@@ -649,6 +688,7 @@
 </div>
 
 <!-- LEAVE MANAGEMENT -->
+
 <div class="tab" id="at-leave_mgmt">
   <div class="ph"><h2>📆 إدارة الإجازات</h2><p>أضف أيام إجازة مباشرة لأي موظف — لن تُحتسب غياباً</p></div>
   <div class="card mb12" style="border-color:rgba(206,147,216,.25);background:linear-gradient(135deg,rgba(206,147,216,.04),transparent)">
@@ -669,6 +709,7 @@
 </div>
 
 <!-- LOANS ADMIN — طلبات السلف -->
+
 <div class="tab" id="at-loans">
   <div class="ph"><h2>💳 طلبات السلف</h2><p>الموافقة تخصم السلفة من راتب الموظف تلقائياً</p></div>
   <div class="card mb12">
@@ -682,6 +723,7 @@
 </div>
 
 <!-- ADMIN LOGS -->
+
 <div class="tab" id="at-logs">
   <div class="ph fb">
     <div><h2>📝 سجل العمليات</h2><p>كل تعديل يُسجَّل هنا</p></div>
@@ -694,6 +736,7 @@
 </div>
 
 <!-- SALES STATS -->
+
 <div class="tab" id="at-sales">
   <div class="ph fb">
     <div><h2>📦 إحصائيات الطلبات</h2><p>عدد الطلبات لكل موظف — فيسبوك / انستقرام / واتساب</p></div>
@@ -729,6 +772,7 @@
 </div>
 
 <!-- MAP - خريطة الموظفين -->
+
 <div class="tab" id="at-map">
   <div class="ph"><h2>🗺️ خريطة الموظفين</h2><p>مواقع الموظفين عند تسجيل الحضور</p></div>
   <div class="card mb12">
@@ -749,6 +793,7 @@
 </div>
 
 <!-- GROUP CHAT - الدردشة الجماعية للمدير -->
+
 <div class="tab" id="at-groupchat">
   <div class="ph"><h2>💬 الدردشة الجماعية</h2><p>غرفة مشتركة مع جميع الموظفين</p></div>
   <div class="card" style="padding:0;overflow:hidden">
@@ -763,6 +808,7 @@
 </div>
 
 <!-- ADVANCED REPORTS - تقارير متقدمة -->
+
 <div class="tab" id="at-advrep">
   <div class="ph fb">
     <div><h2>📈 تقارير متقدمة</h2><p>رسوم بيانية تفاعلية</p></div>
@@ -798,6 +844,7 @@
 </div>
 
 <!-- SETTINGS -->
+
 <div class="tab" id="at-cfg">
   <div class="ph"><h2>⚙️ الإعدادات</h2></div>
   <div class="card mb12">
@@ -873,6 +920,7 @@
   </div>
 
   <!-- واتساب -->
+
   <div class="card mb12" style="border-color:rgba(37,211,102,.2);background:rgba(37,211,102,.03)">
     <div class="ch"><h3>💬 واتساب</h3></div>
     <div class="cb">
@@ -901,6 +949,7 @@
   </div>
 
   <!-- بروكسي تليجرام -->
+
   <div class="card mb12" style="border-color:rgba(0,136,204,.2);background:rgba(0,136,204,.03)">
     <div class="ch"><h3>🔗 بروكسي تليجرام</h3></div>
     <div class="cb">
@@ -921,6 +970,7 @@
   </div>
 
 <!-- ══ إدارة الأدمنز الفرعيين ══ -->
+
   <div class="card mb12" style="border-color:rgba(206,147,216,.25);background:rgba(206,147,216,.03)">
     <div class="ch"><h3 style="color:var(--purple)">👑 إدارة حسابات المديرين</h3><button class="btn btn-pr btn-sm" onclick="openAddSubAdmin()">➕ إضافة مدير</button></div>
     <div class="cb">
