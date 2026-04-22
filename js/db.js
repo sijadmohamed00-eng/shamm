@@ -1,25 +1,41 @@
-function initData(){
-  // Admin credentials - DO NOT CHANGE unless you want to reset admin
-  if(!DB.get('adminCreds'))DB.set('adminCreds',{u:_d('41,59,48,48,59,62,5,59,62,55,51,52'),pw:_d('27,62,55,51,52,26,104,106,104,111')});
-  
-  // Telegram settings - only set default if not already saved
-  if(!DB.get('tgId'))DB.set('tgId',TG_CHAT_DEFAULT);
-  
-  // Only initialize empty arrays if they don't exist
-  if(!DB.get('emps'))DB.set('emps',[]);
-  if(!DB.get('att'))DB.set('att',[]);
-  if(!DB.get('msg'))DB.set('msg',[]);
-  if(!DB.get('reports'))DB.set('reports',[]);
-  if(!DB.get('archive'))DB.set('archive',{periods:[],snapshots:{}});
-  if(!DB.get('groupChat'))DB.set('groupChat',[]);
-  if(!DB.get('leaveRequests'))DB.set('leaveRequests',[]);
-  if(!DB.get('salesLog'))DB.set('salesLog',[]);
-  if(!DB.get('adminLogs'))DB.set('adminLogs',[]);
-  if(!DB.get('loanRequests'))DB.set('loanRequests',[]);
-  
-  console.log('Data initialized. Saved keys:', Object.keys(localStorage).filter(k=>k.startsWith('ccs2_')));
+// ═══ DB HELPERS ═══
+function saveEmp(emp){
+  var emps=DB.get('emps')||[];
+  var idx=-1;
+  for(var i=0;i<emps.length;i++){
+    if(emps[i].id===emp.id){idx=i;break;}
+  }
+  if(idx>=0){emps[idx]=emp;}
+  else{emps.push(emp);}
+  DB.set('emps',emps);
+  syncToCloud('emps',emps);
 }
 
-// ═══════════════════════════════════════════════════
-//  PERIOD & SALARY
-// ═══════════════════════════════════════════════════
+function delEmp(id){
+  var emps=DB.get('emps')||[];
+  for(var i=0;i<emps.length;i++){
+    if(emps[i].id===id){emps.splice(i,1);break;}
+  }
+  DB.set('emps',emps);
+  syncToCloud('emps',emps);
+}
+
+function getEmpById(id){
+  var emps=DB.get('emps')||[];
+  for(var i=0;i<emps.length;i++){
+    if(emps[i].id===id){return emps[i];}
+  }
+  return null;
+}
+
+function saveAtt(rec){
+  var att=DB.get('att')||[];
+  att.push(rec);
+  DB.set('att',att);
+  syncToCloud('att',att);
+}
+
+function getEmpAtt(empId){
+  var att=DB.get('att')||[];
+  return att.filter(function(a){return a.eid===empId;});
+}
