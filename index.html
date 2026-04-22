@@ -1026,6 +1026,10 @@
       </div>
       <div class="fg"><label>الراتب الشهري (د.ع) *</label><input type="number" class="fi" id="neSalary" placeholder="550000"></div>
       <div class="fg"><label>رقم الواتساب</label><input type="text" class="fi" id="neWa" placeholder="9647710000000" style="direction:ltr"></div>
+      <div class="fg"><label>صورة الموظف</label>
+        <input type="file" class="fi" id="nePhoto" accept="image/*" onchange="previewEmpPhoto(this,'ne')">
+        <img id="nePhotoPreview" style="width:60px;height:60px;border-radius:8px;margin-top:5px;display:none;object-fit:cover">
+      </div>
       <div class="fg"><label>ملاحظات</label><input type="text" class="fi" id="neNotes"></div>
     </div>
     <div class="mf"><button class="btn btn-sc" onclick="closeModal('addEmpModal')">إلغاء</button><button class="btn btn-pr" onclick="addEmp()">➕ إضافة</button></div>
@@ -1046,6 +1050,10 @@
         <div class="dtab" onclick="showDTab('att',this)">الحضور</div>
       </div>
       <div class="dtc active" id="dt-info">
+        <div style="text-align:center;margin-bottom:15px">
+          <div id="detailPhoto" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold)"></div>
+          <button class="btn btn-sc btn-sm" style="margin-top:8px" onclick="adminUploadEmpPhoto(document.getElementById('empDetailModal').dataset.empId)">📷 تغيير الصورة</button>
+        </div>
         <div class="igrid mb12" id="detailIG"></div>
         <div class="divider"></div>
         <div class="fg"><label>تعديل الراتب</label><div class="flex g8"><input type="number" class="fi" id="eSalInp"><button class="btn btn-wa" onclick="saveSal()">حفظ</button></div></div>

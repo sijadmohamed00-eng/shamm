@@ -2061,12 +2061,51 @@ function updateEmpAvatar(emp){
   const av=document.getElementById('empAvBig');
   if(!av)return;
   if(emp.photo){
-    av.style.background='none';
-    av.innerHTML=`<img src="${emp.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`;
+    av.style.backgroundImage='url('+emp.photo+')';
+    av.style.backgroundSize='cover';
+    av.style.backgroundPosition='center';
+    av.textContent='';
   }else{
+    av.style.backgroundImage='';
     av.style.background='linear-gradient(135deg,var(--gold),var(--gold2))';
-    av.innerHTML=emp.name?emp.name[0]:'م';
+    av.textContent=emp.name?emp.name.charAt(0):'م';
   }
+}
+
+// Admin upload employee photo
+function adminUploadEmpPhoto(empId){
+  var inp=document.createElement('input');
+  inp.type='file';inp.accept='image/*';
+  inp.onchange=function(e){
+    var file=e.target.files[0];if(!file)return;
+    if(file.size>2*1024*1024){showToast('الصورة أكبر من 2MB','e');return;}
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var emps=DB.get('emps')||[];
+      var i=emps.findIndex(function(e){return e.id===empId;});
+      if(i===-1){showToast('لم يتم العثور على الموظف','e');return;}
+      emps[i].photo=ev.target.result;
+      DB.set('emps',emps);
+      showToast('✅ تم رفع الصورة','s');
+      renderAdmin(); // Refresh admin panel
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
+}
+
+// Preview employee photo before upload
+function previewEmpPhoto(input,prefix){
+  if(!input.files||!input.files[0])return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var preview=document.getElementById(prefix+'PhotoPreview');
+    if(preview){
+      preview.src=e.target.result;
+      preview.style.display='block';
+    }
+  };
+  reader.readAsDataURL(input.files[0]);
 }
 
 // ══════════════════════════════════════════════════════
