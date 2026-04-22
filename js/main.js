@@ -2,6 +2,13 @@
 //  BOOT — تهيئة النظام
 // ═══════════════════════════════════════════════════════════════════
 
+// Global error handler
+window.onerror = function(msg, url, line, col, error) {
+  console.error('Global Error:', msg, 'at line', line);
+  alert('خطأ: ' + msg + '\nالسطر: ' + line);
+  return false;
+};
+
 // Make sure we run after DOM is ready
 document.addEventListener('DOMContentLoaded', function(){
   

@@ -1,9 +1,13 @@
 function loadEmpScreen(emp){
-  // Debug
   console.log('loadEmpScreen called with emp:',emp);
-  console.log('CU:',window.CU);
   
-  // Set global currentUser for photo upload
+  if(!emp){
+    console.error('No emp data!');
+    return;
+  }
+  
+  // Set global CU for getEmp
+  window.CU={role:'emp',id:emp.id};
   window.currentUser=emp;
   
   // Show photo if exists, otherwise first letter
@@ -315,17 +319,20 @@ function showETab(id,el){
   document.getElementById('empMainScroll')?.scrollTo(0,0);
 }
 
-// Export functions to window
-window.loadEmpScreen=loadEmpScreen;
-window.refreshEmpUI=refreshEmpUI;
-window.updTodayStatus=updTodayStatus;
-window.updAttBtns=updAttBtns;
-window.doCI=doCI;
-window.doCO=doCO;
-window.renderEmpHist=renderEmpHist;
-window.renderDayGrid=renderDayGrid;
-window.renderEmpAttPattern=renderEmpAttPattern;
-window.renderEmpMessages=renderEmpMessages;
-window.renderEmpArchive=renderEmpArchive;
-window.showETab=showETab;
-window.showEmpArchDetail=showEmpArchDetail;
+// Export ALL functions to window for global access
+(function(){
+  var funcs = [
+    'loadEmpScreen','refreshEmpUI','updTodayStatus','updAttBtns',
+    'doCI','doCO','toggleAutoCo','renderEmpHist','renderDayGrid',
+    'renderEmpAttPattern','renderEmpMessages','renderEmpArchive',
+    'showETab','showEmpArchDetail','renderEmpLeaveHistory','renderEmpLastAtt',
+    'renderEmpChat','renderEmpLoanHistory','renderEmpSchedule'
+  ];
+  funcs.forEach(function(f){
+    try{
+      if(typeof window[f] === 'undefined' && typeof eval(f) === 'function'){
+        window[f] = eval(f);
+      }
+    }catch(e){}
+  });
+})();
