@@ -1005,8 +1005,8 @@ arch:‘reports’,rep:‘reports’,msg:‘messages’,logs:‘logs’,
 sales:‘sales’,map:‘view_emp’,groupchat:‘messages’,advrep:‘reports’,cfg:‘settings’
 };
 
-let SA_MODE=false; // currently logged in as sub-admin
-let CU_PERMS=null; // active sub-admin permissions (null = all)
+// SA_MODE declared in config.js
+// CU_PERMS declared in config.js
 
 function getSubAdmins(){return DB.get(‘subAdmins’)||[];}
 
