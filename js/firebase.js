@@ -4,6 +4,7 @@ get(k){try{return JSON.parse(localStorage.getItem(‘ccs2_’+k))}catch{return n
 set(k,v){localStorage.setItem(‘ccs2_’+k,JSON.stringify(v));if(typeof SYNC_KEYS!==‘undefined’&&SYNC_KEYS.includes(k)&&typeof _syncToCloud===‘function’)*syncToCloud(k,v);},
 del(k){localStorage.removeItem(’ccs2*’+k)}
 };
+window.DB = DB;
 // ═══ FIREBASE REALTIME SYNC ═══
 // ═══ FIREBASE CONFIG (REAL - abn-alsham) ═══
 const _REAL_FB_CFG={
