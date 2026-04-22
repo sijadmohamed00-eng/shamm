@@ -82,22 +82,38 @@ function openAddEmp(){
 }
 
 function addEmp(){
-  const name=document.getElementById('neName').value.trim();
-  const u=document.getElementById('neUser').value.trim()||name.split(' ')[0].toLowerCase();
-  const pw=document.getElementById('nePass').value.trim();
-  const sh=document.getElementById('neShift').value;
-  const sal=parseInt(document.getElementById('neSalary').value)||0;
-  const wa=document.getElementById('neWa').value.trim().replace(/\D/g,'');
-  const notes=document.getElementById('neNotes').value.trim();
+  var name=document.getElementById('neName').value.trim();
+  var u=document.getElementById('neUser').value.trim()||name.split(' ')[0].toLowerCase();
+  var pw=document.getElementById('nePass').value.trim();
+  var sh=document.getElementById('neShift').value;
+  var sal=parseInt(document.getElementById('neSalary').value)||0;
+  var wa=document.getElementById('neWa').value.trim().replace(/\D/g,'');
+  var notes=document.getElementById('neNotes').value.trim();
+  // Get photo if uploaded
+  var photoInput=document.getElementById('nePhoto');
+  var photo='';
+  if(photoInput&&photoInput.files&&photoInput.files[0]){
+    var reader=new FileReader();
+    // We'll use a different approach - read file directly
+    var f=photoInput.files[0];
+    if(f.size>2*1024*1024){showToast('الصورة أكبر من 2MB','e');return;}
+  }
   if(!name||!pw||!sal){showToast('يرجى ملء الحقول المطلوبة','e');return}
-  const emps=DB.get('emps')||[];
-  if(emps.find(e=>e.u===u)){showToast('اليوزر مستخدم مسبقاً','e');return}
-  const newEmp={id:genId(),name,u,pw,sh,sal,wa,notes,rating:0,bon:[],ded:[],lvM:0,jd:todayStr()};
+  var emps=DB.get('emps')||[];
+  if(emps.find(function(e){return e.u===u;})){showToast('اليوزر مستخدم مسبقاً','e');return}
+  var newEmp={id:genId(),name:name,u:u,pw:pw,sh:sh,sal:sal,wa:wa,notes:notes,rating:0,bon:[],ded:[],lvM:0,jd:todayStr()};
   if(sh==='custom'){newEmp.customFrom=document.getElementById('neCustomFrom').value;newEmp.customTo=document.getElementById('neCustomTo').value;}
+  // Check for photo preview
+  var photoPreview=document.getElementById('nePhotoPreview');
+  if(photoPreview&&photoPreview.src&&photoPreview.style.display!=='none'){
+    newEmp.photo=photoPreview.src;
+  }
   emps.push(newEmp);
-  DB.set('emps',emps); closeModal('addEmpModal'); renderAdmin();
-  sendTg(`👤 موظف جديد\nالاسم: ${name}\nاليوزر: ${u}\nالراتب: ${fmtN(sal)} د.ع\nالواتساب: ${wa||'--'}`);
-  showToast(`✅ تم إضافة ${name}`,'s');
+  DB.set('emps',emps); 
+  closeModal('addEmpModal'); 
+  renderAdmin();
+  sendTg('👤 موظف جديد\nالاسم: '+name+'\nاليوزر: '+u+'\nالراتب: '+fmtN(sal)+' د.ع\nالواتساب: '+(wa||'--'));
+  showToast('✅ تم إضافة '+name,'s');
 }
 
 // ═══════════════════════════════════════════════════
@@ -105,8 +121,23 @@ function addEmp(){
 // ═══════════════════════════════════════════════════
 function openDetail(empId){
   DID=empId;
-  const emp=(DB.get('emps')||[]).find(e=>e.id===empId); if(!emp)return;
-  document.getElementById('detailTitle').textContent=`تفاصيل: ${emp.name}`;
+  var emp=(DB.get('emps')||[]).find(function(e){return e.id===empId;}); if(!emp)return;
+  document.getElementById('detailTitle').textContent='تفاصيل: '+emp.name;
+  // Set empId for photo upload
+  document.getElementById('empDetailModal').dataset.empId=empId;
+  // Show photo
+  var photoEl=document.getElementById('detailPhoto');
+  if(photoEl){
+    if(emp.photo){
+      photoEl.style.backgroundImage='url('+emp.photo+')';
+      photoEl.style.backgroundSize='cover';
+      photoEl.style.backgroundPosition='center';
+      photoEl.textContent='';
+    }else{
+      photoEl.style.backgroundImage='';
+      photoEl.textContent=emp.name?emp.name.charAt(0):'م';
+    }
+  }
   document.getElementById('eSalInp').value=emp.sal;
   document.getElementById('eShiftInp').value=emp.sh;
   if(emp.sh==='custom'){
